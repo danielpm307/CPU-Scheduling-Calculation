@@ -143,6 +143,62 @@ def rrobin(dict,quantum):
         if(flag):
             break
     return rrdict,pLine
+def Drrobin(dict,quantum):
+    begHold = 0
+    rrdict,pLine = {},[]
+    keyP = list(dict.keys())
+    at,bt = map(list, zip(*dict.values()))
+    atHold,btHold = at.copy(),bt.copy()
+    while True:
+        flag = True
+        for i in range(len(keyP)):
+            if (atHold[i] <= begHold):
+                if (atHold[i] <= quantum):
+                    if(btHold[i] > 0):
+                        flag = False
+                        if (btHold[i] > quantum):
+                            begHold += quantum
+                            btHold[i] -= quantum
+                            atHold[i] += quantum
+                            pLine.append([keyP[i],begHold])
+                        else:
+                            begHold += btHold[i]
+                            rrdict[keyP[i]] = [begHold-bt[i]-at[i],begHold-at[i]]
+                            btHold[i] = 0
+                            pLine.append([keyP[i],begHold])
+                elif atHold[i] > quantum:
+                    for j in range(len(keyP)):
+                        if (atHold[j]<atHold[i]):
+                            if(btHold[j] > 0):
+                                flag = False
+                                if(btHold[j] > quantum):
+                                    begHold += quantum
+                                    btHold[j] -= quantum
+                                    atHold[j] += quantum
+                                    pLine.append([keyP[j],begHold])
+                                else:
+                                    begHold += btHold[j]
+                                    rrdict[keyP[j]] = [begHold-bt[j]-at[j],begHold-at[j]]
+                                    btHold[j] = 0
+                                    pLine.append([keyP[j],begHold])
+                    if(btHold[i]>0):
+                        flag = False
+                        if(btHold[i]>quantum):
+                            begHold += quantum
+                            btHold[i] -= quantum
+                            atHold[i] += quantum
+                            pLine.append([keyP[i],begHold])
+                        else:
+                            begHold += btHold[i]
+                            rrdict[keyP[i]] = [begHold-bt[i]-at[i],begHold-at[i]]
+                            btHold[i] = 0
+                            pLine.append([keyP[i],begHold])
+            elif(atHold[i]>begHold):
+                begHold += 1
+                i -= 1
+        if(flag):
+            break
+    return rrdict,pLine
 #Print Function + Calculation
 def printData(gData, cData, pLine, Name):
     avgWT,avgTT =0,0
