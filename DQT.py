@@ -105,11 +105,11 @@ def findavgTime(processes, n, bt, quantum):
 if __name__ =="__main__":
 	
 	# Process id's
-	proc = [1, 2, 3]
-	n = 3
+	proc = [1, 2, 3,4,5,6,7,8,9,10,11,12]
+	n = 12
 
 	# Burst time of all processes
-	burst_time = [10, 5, 8]
+	burst_time = [10, 5, 8,6,9,7,8,9,5,7,9,6]
 
 	
 	
