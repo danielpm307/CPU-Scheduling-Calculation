@@ -1,101 +1,14 @@
 
-#First Come First Serve Function
-def fcfs(dict):
-    btHold,taHold = 0,0 
-    pLine = []
-    fcfsdict = {}
-    for key,value in dict.items():
-        at,bt = value[0],value[1]
-        if (at == 0):
-            taHold += bt
-            fcfsdict[key] = [btHold-at,bt-at]
-            pLine.append([key,taHold])
-            btHold = bt
-        elif(btHold-at > 0):
-            taHold += bt
-            fcfsdict[key] = [btHold-at,taHold-at]
-            pLine.append([key,taHold])
-            btHold += bt
-        else:
-            taHold += bt
-            fcfsdict[key] = [0,bt]
-            pLine.append([key,taHold+1])
-            btHold += bt
-    return fcfsdict,pLine
-#Shortest Job First Function
-def sjf(dict):
-    begHold,endHold = 0,0
-    sjfdict,tempdict,sortdict,pLine ={},{},{},[]
-    for key,value in dict.items():
-        at,bt = value[0],value[1]
-        if (begHold == 0):
-            endHold += bt
-            sjfdict[key] = [begHold-at,bt-at]
-            pLine.append([key,endHold])
-            begHold = bt
-        else:
-            tempdict[key] = value[0],value[1]
-    for key,value in sorted(tempdict.items(), key = lambda x : x[1][1]):
-        sortdict[key] = value[0],value[1]
-    for key,value in sortdict.items():
-        at,bt = value[0],value[1]
-        if(begHold-at > 0):
-            endHold += bt
-            sjfdict[key] = [begHold-at,endHold-at]
-            pLine.append([key,endHold])
-            begHold += bt
-        else:
-            endHold += bt
-            sjfdict[key] = [0,bt]
-            pLine.append([key,endHold+1])
-            begHold += bt            
-    return sjfdict,pLine
-#Shortest Remaining Time First Function
-def srtf(dict):
-    begHold,endHold = 0,0
-    srtfdict,tempdict,sortdict,pLine = {},{},{},[]
-    for key,value in dict.items():
-        at,bt = value[0],value[1]
-        if (begHold == 0):
-            second = list(dict.values())[1]
-            srtfdict[key] = [begHold-at, bt-second[0]-at]
-            endHold += bt-second[0]
-            begHold = bt-second[0]
-            tempdict[key] = at, bt-begHold
-            pLine.append([key,endHold])
-        else:
-            tempdict[key] = at,bt
-    for key,value in reversed(sorted(tempdict.items(), key = lambda x : x[1][1],reverse=True)):
-        sortdict[key] = value[0],value[1]
-    for key,value in sortdict.items():
-        at,bt = value[0], value[1]
-        if key in srtfdict.keys():
-            hold = srtfdict[key]
-            endHold += bt
-            srtfdict[key] = [begHold-hold[1],endHold-at]
-            pLine.append([key,endHold])
-            begHold += bt
-        elif(begHold-at > 0):
-            endHold += bt
-            srtfdict[key] = [begHold-at,endHold-at]
-            pLine.append([key,endHold])
-            begHold += bt
-        else:
-            endHold += bt
-            srtfdict[key] = [0,bt]
-            pLine.append([key,endHold+1])
-            begHold += bt 
-    return srtfdict, pLine
 #Round Robins   
 def rrobin(dict,quantum):
     begHold = 0
-    rrdict,pLine = {},[]
-    keyP = list(dict.keys())
+    rrdict,pLine = {},[] #{} = dict
+    keyP = list(dict.keys()) #keyp => list of process
     at,bt = map(list, zip(*dict.values()))
     atHold,btHold = at.copy(),bt.copy()
     while True:
         flag = True
-        for i in range(len(keyP)):
+        for i in range(len(keyP)): 
             if (atHold[i] <= begHold):
                 if (atHold[i] <= quantum):
                     if(btHold[i] > 0):
