@@ -8,6 +8,7 @@ bt : brust time
 rem_bt : remaining brust time
 wt : waiting time
 tat : turn aroun time
+n : number of process
 """
 
 
@@ -110,9 +111,15 @@ if __name__ =="__main__":
 	# Burst time of all processes
 	burst_time = [10, 5, 8]
 
-	# Time quantum
-	quantum = 2;
+	
+	
 
 	#for regular quantum time
+	quantum = 2;
+	findavgTime(proc, n, burst_time, quantum)
+
+	#for dynamic quantum time 
+	BTmax =  max(burst_time)
+	quantum = 0.8 * BTmax
 	findavgTime(proc, n, burst_time, quantum)
 
