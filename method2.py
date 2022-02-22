@@ -6,6 +6,8 @@
 rem_bt : remaining brust time
 bt : brust time
 rem_bt : remaining brust time
+wt : waiting time
+tat : turn aroun time
 """
 
 
@@ -48,21 +50,18 @@ def findWaitingTime(processes, n, bt,wt, quantum):
 				# to quantum. Last cycle for this process
 				else:
 				
-					# Increase the value of t i.e. shows
-					# how much time a process has been processed
+					# Increase the value of t i.e. shows how much time a process has been processed
 					t = t + rem_bt[i]
 
-					# Waiting time is current time minus
-					# time used by this process
+					# Waiting time is current time minus time used by this process
 					wt[i] = t - bt[i]
 
-					# As the process gets fully executed
-					# make its remaining burst time = 0
+					# As the process gets fully executed make its remaining burst time = 0
 					rem_bt[i] = 0
 				
 		# If all processes are done
 		if (done == True):
-			break
+			break #exit while(1)
 			
 # Function to calculate turn around time
 def findTurnAroundTime(processes, n, bt, wt, tat):
@@ -78,13 +77,11 @@ def findavgTime(processes, n, bt, quantum):
 	wt = [0] * n
 	tat = [0] * n
 
-	# Function to find waiting time
-	# of all processes
+	# Function to find waiting time of all processes
 	findWaitingTime(processes, n, bt,
 						wt, quantum)
 
-	# Function to find turn around time
-	# for all processes
+	# Function to find turn around time for all processes
 	findTurnAroundTime(processes, n, bt,
 								wt, tat)
 
@@ -115,5 +112,7 @@ if __name__ =="__main__":
 
 	# Time quantum
 	quantum = 2;
+
+	#for regular quantum time
 	findavgTime(proc, n, burst_time, quantum)
 
